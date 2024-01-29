@@ -1,6 +1,6 @@
 name = "LinearNovelty"
 uuid = "973bbfaa-2ec3-4c90-b669-2981635c6b1a"
-authors = ["Adam Ulrich <adamo.ulrich@gmail.com> and contributors"]
+authors = ["Adam Ulrich <a_ulrich@utb.cz> and contributors"]
 version = "1.0.0-DEV"
 
 [deps]
