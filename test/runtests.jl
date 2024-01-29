@@ -35,6 +35,16 @@ end;
 
     @test isapprox(objective_value(model),0; atol=0.01)
 
+    print(value.(alpha))
+
+end;
+
+@testset "example" begin
+
+    # pole alpha - z funkce get optimized - uceni bez novelty
+    # pole inputů xj - nove inputy (regulary)
+    # hodnotu kterou chces vedet jestli je novelty z
+    print(get_optimized_values([[1,2,3],[4,5,6],[7,8,9]], osmicka))
 
 end;
 
