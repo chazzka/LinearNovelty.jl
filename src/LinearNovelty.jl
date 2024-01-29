@@ -35,7 +35,7 @@ end
 
 normalize(arr) = begin
     return @>> arr begin
-        map(x -> x < 0.01 ? 1 : 0)
+        map(x -> x < -0.01 ? 1 : 0)
     end
 end
 
