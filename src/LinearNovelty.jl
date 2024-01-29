@@ -13,7 +13,7 @@ osmicka(mat, alpha, b) = mat * alpha .+ b
 
 
 # optimalizace alpha bez novelty (faze uceni)
-get_optimized_values(input, osmicka) = begin
+get_optimized_values(input, K::Function, osmicka::Function) = begin
     model = Model(HiGHS.Optimizer)
     #this defines alpha variable
     @variable(model, 0<= alpha[j = 1:length(input)])
@@ -30,7 +30,7 @@ get_optimized_values(input, osmicka) = begin
 
     optimize!(model)
 
-    return value.(alpha)
+    return (value.(alpha), value(b))
 end
 
 end
