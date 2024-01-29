@@ -5,7 +5,7 @@ using LinearAlgebra
 
 export K, osmicka
 
-K((x,y), euler = 2.7182818, sigma=100) = euler^(-norm(x-y)^2/(2*sigma^2))
+K((x,y); sigma=100) = ℯ^(-norm(x-y)^2/(2*sigma^2))
 
 osmicka(mat, alpha, b) = mat * alpha .+ b
 

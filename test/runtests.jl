@@ -22,7 +22,6 @@ end;
     @variable(model, 0<= alpha[j = 1:3])
     print(alpha)
     @test length(alpha) == 3
-    
     @variable(model, b)
     
     osmres = osmicka(kMat, alpha, b)
