@@ -5,7 +5,7 @@ using LinearAlgebra
 using Lazy
 using Base.Iterators #for product
 
-export K, osmicka, get_optimized_values
+export K, osmicka, get_optimized_values, predict
 
 K((x,y); sigma=100) = ℯ^(-norm(x-y)^2/(2*sigma^2))
 
@@ -31,6 +31,27 @@ get_optimized_values(input, K::Function, osmicka::Function) = begin
     optimize!(model)
 
     return (value.(alpha), value(b))
+end
+
+normalize(arr) = begin
+    return @>> arr begin
+        map(x -> x < 0.01 ? 1 : 0)
+    end
+end
+
+"""
+Predict method return 1 if novelty, 0 otherwise
+# Arguments
+- `regular`: Array of arrays of regular points [[1],[1.1],[1.05]].
+- `novelty`: Array of arrays of points we wish to evaluate [[100],[101]].
+- `alphas, bias`: you get these from get_optimized_values function.
+"""
+predict(regular::AbstractArray, novelty::AbstractArray, alphas::AbstractArray, bias::AbstractFloat, K::Function) = begin
+    return @>> product(regular, novelty) begin
+     map(K)
+     res -> osmicka(res', alphas, bias)
+     normalize
+    end
 end
 
 end

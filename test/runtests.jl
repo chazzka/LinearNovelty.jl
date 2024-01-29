@@ -90,3 +90,16 @@ end;
     @show osmicka(kMat(data, [data[2]])', alphas, bias)
 
 end;
+
+@testset "test_predict" begin
+
+    data = [[1,2,3],[4,5,6],[7,8,9],[1,2,5]]
+    novelty = [[99,88,77], [100,200,300]]
+    (alphas, bias) = get_optimized_values(data,K, osmicka)
+    # predict phase
+    
+    normalized_res = predict(data, novelty, alphas, bias, K)
+    #test that the desired points are indeed novelties == 1
+    @test normalized_res == [1,1]
+
+end;
