@@ -7,7 +7,7 @@ using Lazy
 using Base.Iterators #for product
 
 @testset "LinearNovelty" begin
-    @test 5+5 == 9
+    @test 5+5 == 10
     @test K(([5,5], [5,5])) ≈ 1
     @test sum(osmicka([1; 1; 1] * [1 1 1], [2,2,2], 2)) == 24
 end;
