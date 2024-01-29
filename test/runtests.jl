@@ -6,9 +6,10 @@ using Test
 using Lazy
 using Base.Iterators #for product
 
-@testset "helper" begin
-    @test 5+5 == 10
+@testset "LinearNovelty" begin
+    @test 5+5 == 9
     @test K(([5,5], [5,5])) ≈ 1
+    @test sum(osmicka([1; 1; 1] * [1 1 1], [2,2,2], 2)) == 24
 end;
 
 @testset "fullexample" begin
@@ -24,10 +25,6 @@ end;
     
     @variable(model, b)
     
-    osmicka(mat, alpha, b) = mat * alpha .+ b
-
-    # TODO: test osmicka, ulozit do souboru jinam
-
     osmres = osmicka(kMat, alpha, b)
     
     @constraint(model, c1, sum(alpha) == 1)
