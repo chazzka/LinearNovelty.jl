@@ -5,6 +5,9 @@ using LinearAlgebra
 using Test
 using Lazy
 using Base.Iterators #for product
+using CSV
+using DataFrames
+using Downloads
 
 @testset "LinearNovelty" begin
     @test 5+5 == 10
@@ -101,5 +104,26 @@ end;
     normalized_res = predict(data, novelty, alphas, bias, K)
     #test that the desired points are indeed novelties == 1
     @test normalized_res == [1,1]
+
+end;
+
+@testset "clanek" begin
+    train = CSV.read(Downloads.download("https://raw.githubusercontent.com/chazzka/novelties_datasets/main/clicked/csv/data_novelties_clicked_train.csv"), DataFrame; header=false)
+    test = CSV.read(Downloads.download("https://raw.githubusercontent.com/chazzka/novelties_datasets/main/clicked/csv/data_novelties_clicked_test.csv"), DataFrame; header=false)
+
+    # remove class column
+    select!(train, Not([:Column3]))
+    select!(test, Not([:Column3]))
+
+    #convert to vector of vectors idk
+    trainVV = Vector{Float64}[eachcol(Matrix(train)')...]
+    testVV = Vector{Float64}[eachcol(Matrix(test)')...]
+
+    (alphas, bias) = get_optimized_values(trainVV, K, osmicka)
+    @show length(trainVV)
+    @show length(testVV)
+    @show length([trainVV; testVV])
+
+    @show predict(trainVV, [trainVV; testVV], alphas, bias, K)
 
 end;
