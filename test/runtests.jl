@@ -100,8 +100,8 @@ end;
     novelty = [[99,88,77], [100,200,300]]
     (alphas, bias) = get_optimized_values(data,K, osmicka)
     # predict phase
-    
-    normalized_res = predict(data, novelty, alphas, bias, K)
+    res = @>> alphas map(≉(0)) BitVector
+    normalized_res = predict(data[res], novelty, alphas[res], bias, K)
     #test that the desired points are indeed novelties == 1
     @test normalized_res == [1,1]
 
@@ -120,10 +120,11 @@ end;
     testVV = Vector{Float64}[eachcol(Matrix(test)')...]
 
     (alphas, bias) = get_optimized_values(trainVV, K, osmicka)
+    res = @>> alphas map(≉(0;atol=0.01)) BitVector
     @show length(trainVV)
     @show length(testVV)
     @show length([trainVV; testVV])
 
-    @show predict(trainVV, [trainVV; testVV], alphas, bias, K)
+    @show predict(trainVV[res], [trainVV; testVV], alphas[res], bias, K)
 
 end;

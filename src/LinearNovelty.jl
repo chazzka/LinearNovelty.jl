@@ -34,8 +34,9 @@ get_optimized_values(input, K::Function, osmicka::Function) = begin
 end
 
 normalize(arr) = begin
-    return @>> arr begin
-        map(x -> x < -0.01 ? 1 : 0)
+    return @>> begin
+        arr
+        map(x -> x < 0.0 ? 1 : 0)
     end
 end
 
@@ -47,10 +48,12 @@ Predict method return 1 if novelty, 0 otherwise
 - `alphas, bias`: you get these from get_optimized_values function.
 """
 predict(regular::AbstractArray, novelty::AbstractArray, alphas::AbstractArray, bias::AbstractFloat, K::Function) = begin
-    return @>> product(regular, novelty) begin
-     map(K)
-     res -> osmicka(res', alphas, bias)
-     normalize
+    return @>> begin
+        novelty 
+        product(regular) 
+        map(K)
+        res -> osmicka(res', alphas, bias)
+        normalize
     end
 end
 
